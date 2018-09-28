@@ -73,10 +73,18 @@ The modular electric skateboard is an electric skateboard with a deck comprised 
 
 \subsection{Mechanical Systems}
 \subsection{Control Systems and Control Processing}
+The following figure outlines the general structure of the motor control system:
 
 %\includesvg[width=\textwidth]{rt}
 %\input{figs/rt.pdf_tex}
 \includegraphics[width=\linewidth]{rt.pdf}
+The remote control (RC) system is a standard 2.4 GHz hobbyist system designed for small unmanned RC cars and boats and comprised of a handheld transmitter, pictured below, and a small receiver which is attached to the vehicle being controlled. \\
+\includegraphics[width=0.5\textwidth]{controller.jpg}
+\\
+The RC receiver outputs a pulse position modulation (PPM) signal that encodes the position of the throttle on the transmitter. This signal is read by the microcontroller (MCU). The MCU uses a PID control loop with throttle values, the temperatures of the primary and secondary batteries, and motor encoder readings as its inputs to determine the speed at which to drive the motors. The MCU software is structured as follows:\\
+\includegraphics{mcusoftware.pdf}
+\\
+Each column represents a subroutine called by a hardware interrupt. In the case of the first two subroutines, the interrupt is triggered by the rising and falling edge, respectively of the PPM signal. On  the rising edge, a timer's value is captured. On the falling edge, the timer's value is captured again, and the difference between the times is the pulse position in which the throttle value is encoded. On each falling edge, an updated motor control value is decided based on the throttle position and based on encoder and temperature sensor values collected by a third interrupt routine and stored in global memory. The third routine is triggered at regular time intervals and collects temperature sensor and encoder values and sends them over a serial connection to the secondary computer system for long term storage.
 \subsection{Electrical and Power Systems}
 \subsection{Computer and Accessory System}
 
