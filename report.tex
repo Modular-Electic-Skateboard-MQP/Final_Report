@@ -59,7 +59,7 @@ Skateboarding has been around since the mid 1900s, and has changed drastically s
 \item Nose - Front of the board. A typical skateboard has a nose that is angled up.
 \item Tail - Rear of the board. A typical skateboard has a tail that is angled up.
 \end{itemize}
-\item Trucks - The assemblies that connect the wheels to the deck. 
+\item Trucks - The assemblies that connect the wheels to the deck.
 \begin{itemize}
 \item Hanger - The main, T-shaped portion of the truck.
 \item Riser Pad - A pad used to add distance between the wheel and the deck. Often made of a material conducive to dampening vibration, such as rubber or cork.
@@ -100,7 +100,7 @@ Deck shape is important, because when longboarding the deck shape largely determ
 
 
 \subsubsection{Concavity}
-Below are a types of concavity on the board. For the most part it is up to the user, and how he/she prefers the deck to feel under his/her feet. 
+Below are a types of concavity on the board. For the most part it is up to the user, and how he/she prefers the deck to feel under his/her feet.
 
 \begin{itemize}
 
@@ -111,7 +111,7 @@ Below are a types of concavity on the board. For the most part it is up to the u
 \captionof{figure}{Radial}
 \label{radial}
 \end{minipage}
-\item Most Common Design, accepted relatively universally. The deeper the curve the better the feel of the board. 
+\item Most Common Design, accepted relatively universally. The deeper the curve the better the feel of the board.
 \end{figure}
 
 \begin{figure}[!htbp]\centering
@@ -195,7 +195,7 @@ Onewheel +/+XR & 19 & 5-7/12-18 & 25 & 1,399/1,799 \\
 }
 \end{table}
 
-\section{System Overview} 
+\section{System Overview}
 The modular electric skateboard is an electric skateboard with a deck comprised of multiple sections which can be interchanged and replaced, a handheld remote controller for controlling the electric motor, a rail/data bus system attached to the underside of the deck which is capable of housing a number of accessories, and a small computer system which manages those accessories via a simple but flexible API.
 
 \subsection{Mechanical Systems}
@@ -209,7 +209,7 @@ Figure \ref{ctrl-overview} outlines the general structure of the motor control s
 \caption{Major Components of Motor Control System}
 \label{ctrl-overview}
 \end{figure}
-The remote control (RC) system is a standard 2.4 GHz hobbyist system designed for small unmanned RC cars and boats and comprised of a handheld transmitter, pictured in figure \ref{ctrl-tx}, and a small receiver which is attached to the vehicle being controlled. 
+The remote control (RC) system is a standard 2.4 GHz hobbyist system designed for small unmanned RC cars and boats and comprised of a handheld transmitter, pictured in figure \ref{ctrl-tx}, and a small receiver which is attached to the vehicle being controlled.
 \begin{figure}[!htbp]\centering
 \includegraphics[width=0.5\textwidth]{controller.jpg}
 \caption{Standard RC Transmitter and Receiver}
@@ -241,6 +241,154 @@ Accessories are held in the dust resistant, water resistant (IP 66, see section 
 Accessories slot into the base of the shroud, and then the horizontal beam is bolted on top of them to secure them during use. On the end opposite the beam is the accessory's Mini-DIN plug (for more detail, see \ref{access-plug}), used for power and data, which plugs into a port mounted to a PCB mounted to the shroud.
 
 \section{Design Analysis}
+
+\subsection{Mechanical System Analysis}
+Representing the various elements of the Modular Electric Skateboard system requires a study on a variety of sections of the physical properties of the board. This includes calculating for the torque required to move the skateboard given its position, calculating the wheel contributions to a systems speed when a rotation around the board axis is induced, and using said calculations to derive the motors and gear ratios to use for the project.
+\subsubsection{General Torque Calculations}
+The system, in general, has a variety of physical properties that will not change during use.
+
+% Table of system properties
+\begin{table}[h]
+\caption{Physical System Properties}
+\begin{center}
+ \begin{tabular}{||c c||}
+ % \hline
+ % Attribute & Numerical Value \\
+ \hline
+ Board Length & 39" \\
+ \hline
+ Board Width & 9.06" \\
+ \hline
+ Truck Width & 8.04" \\
+ \hline
+ High Friction Wheel Diameter & 2.625" \\
+ \hline
+ Low Friction Wheel Diameter & 2.48" \\
+ \hline
+\end{tabular}
+\end{center}
+\label{table:phys}
+\end{table}
+
+It is also important to note that the following assumptions are made during this analysis:
+\begin{itemize}
+    \item Wheel is inducing point contact on surface
+    \item Rider and system mass are joined together, represented as a center of mass somewhere on the system
+    \item There is no slippage
+    \item Since we assume point contact, there will be no kinetic friction during movement
+\end{itemize}
+
+Using these properties, and a simple Free Body Diagram of the system, we can derive a general equation to map the motor torque and the acceleration on the given system.
+
+\begin{figure}[h]
+\caption{Free Body Diagram of System}
+\includegraphics[width=8cm]{figs/FBD_MESB.png}
+\centering
+\end{figure}
+
+\[\sum F _{x _{0}} = ma _x = F _f - \tau _{0} * R - F _wsin(\theta )\]
+\[\sum F _{x _{0}} = ma _x = F _n \mu _s - \tau _{0} * R - F _wsin(\theta )\]
+\[\sum F _{x _{0}} = ma _x = F _wcos(\theta) \mu _s - \tau _{0} * R - F _wsin(\theta )\]
+\[\tau _{0} = \frac{a _x - gcos(\theta)\mu _s + gsin(\theta)}{-R \frac{1}{m}}\]
+
+The torque that is required has a relation to the acceleration of the system in general at any given moment. We can convert this in terms of output motor torque:
+
+\[\tau _0 = \tau _{motor}\mu_tT\]
+\[\mu_t = transmission  \emph{ efficiency}\]
+\[T = transmission \emph{ ratio}\]
+\begin{equation} \label{eq:1}
+    \tau _{motor} = \frac{a _x - gcos(\theta)\mu _s + gsin(\theta)}{-\mu_t T R \frac{1}{m}}
+\end{equation}
+
+Now we can map the motor torque to the acceleration of the body, which will help us calculate the necessary torque the motor needs to apply to the system given some sensor data and user input on requested speed.
+
+\subsubsection{Wheel Contribution Calculations}
+Equation \ref{eq:1} found a mapping between the board acceleration and motor torque, given some environment and system parameters. However, this case will only be accurate whenever the board torque is applied when a rotation around the board axis ($X _{0}$) is not present.
+
+\begin{figure}[h]
+\includegraphics[width=8cm]{figs/Board_Axis.png}
+\centering
+\end{figure}
+
+In cases when the user induces a turn on the axis, each wheel will contribute differently to the total board velocity, which is something that needs to be mathematically modeled in order to adjust speeds when inducing a rotation $\gamma$ along the $X _{0}$ axis. Please note that the following statements are valid and exploited in this derivation of wheel velocities:
+\begin{itemize}
+    \item Any $\gamma$ along $X _{0}$ induces a rotation angle along the front and rear trucks, and the angle on each truck is equal in magnitude, but opposite in direction.
+    \item All wheels have the same properties
+    \item We know the physical properties of the board, as specified in Table \ref{table:phys}
+\end{itemize}
+
+\begin{figure}[!h]
+\caption{Position state by a rotation $\gamma$}
+\includegraphics[width=10cm]{figs/Wheel_Reps.png}
+\centering
+\end{figure}
+
+Assuming $\gamma$ is not zero, we can use the following relations to derive each wheel contribution:
+
+\[L = \emph{distance from point P to center of wheel}\]
+\[\vec{V} = \emph{Velocity of total body (relative to point P, in body frame)}\]
+\begin{equation}
+    \emph{Rolling Constraint} =
+    [sin(\alpha + \beta), -cos(\alpha + \beta), -Lcos(\beta)]\vec{V} - r\dot{\delta} = 0
+\end{equation}
+\begin{equation}
+    \emph{Sliding Constraint} =
+    [cos(\alpha + \beta), sin(\alpha + \beta), Lsin(\beta)]\vec{V} - r\dot{\delta} = 0
+\end{equation}
+
+These relations are based off of alpha and beta, which can be found for each wheel using the known parameters
+
+\begin{figure}[!h]
+\caption{Position of Front Left Wheel}
+\includegraphics[width=10cm]{figs/FL.png}
+\centering
+\end{figure}
+
+\begin{equation}
+    \alpha _{fl} = cos^{-1}(\frac{\frac{T}{2}-L _{fl}^2-\frac{d}{2}^{2})}{-2L _{fl}\frac{d}{2}})
+\end{equation}
+
+\begin{equation}
+    \beta _{fl} = cos^{-1}(\frac{\frac{d}{2}-L _{fl}^2-\frac{T}{2}^{2})}{-2L _{fl}\frac{T}{2}})
+\end{equation}
+
+Similar calculations can be performed on each wheel, which in the end will yield functions that map our board rotation and wheel speeds to the given board speed. We will summarize the process of combining the wheel velocity equations gathered from the process above and solving for the board velocity $\vec{V}$ inside a function:
+
+\begin{equation}
+    \vec{V} = mapRotationToSpeed(Board Rotation) = mapRV(\gamma)
+\end{equation}
+
+This will allow us to more accurately produce a body velocity to feed into a control system to then tell the board what torque to produce.
+
+\subsection{Modular Platform}
+When conceiving of the concept of how to attach modules on the board in a way that is friendly to the user, Picatinny Rails were the top option for most of the preliminary phase of the project. These rail systems allow any unit with a matching coupling device to be mounted to the rail system, and the device can vary in size with ought affecting the quality of the coupling system when under load.
+
+On the skateboard, it would be places in areas that both are not prone to contact with the ground when the board is moving on uneven surfaces and places in an area that would not affect the structure of the board.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{figs/Picatinny_Rail.JPG}
+    \caption{Picatinny Rail}
+    \label{fig:picTiny}
+\end{figure}
+
+After some thought and discussions with external personnel, we started to conceive of various modular systems that would be better to manufacture. This was done in order to look at the project from the point of view of the manufacturer, which would inheritly open up opportunities to fabricate a system that would implement smaller units under the deck of the board, and retain a higher standard for durability in terms of water resistance, shock, and other elements.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=10cm]{figs/ModPieceAngle.JPG}
+    \caption{Modular Unit}
+    \label{fig:picTiny}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=10cm]{figs/ModularAssembledZoomModOpen.JPG}
+    \caption{Modular Unit on board}
+    \label{fig:picTiny}
+\end{figure}
+
+
 \subsection{Trade Studies}
 This section breaks down in detail several tradeoffs of components, protocols, etc. which had to be considered once the system level design was finished. Each column compares the qualities of a certain attribute of the systems under study, and lists the point value score assigned to each quality. The maximum acheivable score in each category is listed in the header of each category with a ``/'' preceding it; the maximum acheivable total score is listed in the header of the leftmost column listing the names of the systems being compared.
 
@@ -296,7 +444,7 @@ Table \ref{tr-serial} compares several serial protocols which were considered fo
 \begin{tabular}{>{\bfseries}l>{\bfseries}r lr lr lr lr }
 \toprule
 \thead{Name} & /27 & \thead{Wires, \\ Shared} & /3 & \thead{Add'l Wires \\ per Device }& /10 & \thead{Speed} & /4 & \thead{Ease\\ of Use} & /10\\
-\cmidrule(r){1-2} \cmidrule(r){3-4} \cmidrule(r){5-6} \cmidrule(r){7-8} \cmidrule(r){9-10} 
+\cmidrule(r){1-2} \cmidrule(r){3-4} \cmidrule(r){5-6} \cmidrule(r){7-8} \cmidrule(r){9-10}
 \itwoc & 25 & 2 & 2 & 0 & 10 & 100k-3.4Mbps & 3 & easy & 10\\
 CAN & 17 & 2 & 2 & 0 & 10 & 1Mbps & 3 & hard & 2\\
 SPI & 15 & 3 & 1 & 1 & 3 & 10Mbps & 4 & medium & 7\\
@@ -340,7 +488,7 @@ Instead, roads in the neighborhood around Worcester Polytechnic Institute were c
 The MESB should be capable of traversing all of these types of terrain, even if it requires some caution, and it should be comparably comfortable to the stock longboard with the same deck.
 
 \subsubsection{Low Voltage Power}\label{power-lv-sec}
-A potential low voltage power system, for the microcontroller, CPU, and accessories, was designed in OrCAD Capture for simulation in PSpice. Figure \ref{power-lv} shows the circuit. 
+A potential low voltage power system, for the microcontroller, CPU, and accessories, was designed in OrCAD Capture for simulation in PSpice. Figure \ref{power-lv} shows the circuit.
 \begin{figure}[!htbp]\centering
   \includegraphics[width=\linewidth]{power.pdf}
   \caption{Low Voltage Power Circuit Schematic}
@@ -348,7 +496,7 @@ A potential low voltage power system, for the microcontroller, CPU, and accessor
 \end{figure}
 There was no PSpice model available for the battery, so a model using experimentally determined voltages, resistances, and capicatances was implemented. The left hand side of the circuit is an array of different battery models for the same lithium cell at different charges, which are show on the top left. Pairs of identical models are connected in series because the circuit requires two lithium cells. The right hand side is the regulator circuit, composed of a simple LM7805 5V voltage regulator and several bypass power transistors to drive additional current. To ensure that the regulator circuit can provide steady voltage and that the batteries will stay within safe operating boundaries, the sets of batteries will be connected one at a time to the regulator circuit, and the regulator circuit will be connected to a load. Transient and steady-state characteristics of battery and regulator current and voltage will be measured to ensure safe and reliable operation.
 \subsubsection{Statics Analysis}
-When producing a board, it is important to make sure that it has enough safety and security for consumers to ride without fear of board breaking. To make the board more modular, the tips were separated from the centerpiece, so that meant a supporting link(s) was needed to keep the board together. Using SolidWorks, the group 3D modeled the board and possible linkage types. The average pressure generated from a person is about 16 psi, so when running simulations, the assembly was tested at 18 psi to guarantee that it could support a vast majority of people. Through this testing it was apparent which linkages were more effective than others. 
+When producing a board, it is important to make sure that it has enough safety and security for consumers to ride without fear of board breaking. To make the board more modular, the tips were separated from the centerpiece, so that meant a supporting link(s) was needed to keep the board together. Using SolidWorks, the group 3D modeled the board and possible linkage types. The average pressure generated from a person is about 16 psi, so when running simulations, the assembly was tested at 18 psi to guarantee that it could support a vast majority of people. Through this testing it was apparent which linkages were more effective than others.
 \newline
 Below are some Linkage types that were tested. There were also, configurations using double the amount of links.
 
@@ -376,5 +524,5 @@ Below are some Linkage types that were tested. There were also, configurations u
 \end{minipage}
 \end{figure}
 \
-The result of all the testing displayed that the Double V structure was the most structurally sound. 
+The result of all the testing displayed that the Double V structure was the most structurally sound.
 \end{document}
