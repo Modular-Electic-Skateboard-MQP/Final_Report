@@ -98,7 +98,6 @@ Deck shape is important, because when longboarding the deck shape largely determ
 
 \end{itemize}
 
-
 \subsubsection{Concavity}
 Below are a types of concavity on the board. For the most part it is up to the user, and how he/she prefers the deck to feel under his/her feet. 
 
@@ -199,6 +198,17 @@ Onewheel +/+XR & 19 & 5-7/12-18 & 25 & 1,399/1,799 \\
 The modular electric skateboard is an electric skateboard with a deck comprised of multiple sections which can be interchanged and replaced, a handheld remote controller for controlling the electric motor, a rail/data bus system attached to the underside of the deck which is capable of housing a number of accessories, and a small computer system which manages those accessories via a simple but flexible API.
 
 \subsection{Mechanical Systems}
+\subsubsection{Board and Linkages}
+When thinking about the production of the board, in order to increase modularity the group thought that it would be beneficial to split the board into tips and a centerpiece. This would allow for users to attach different peripherals to the MESB as well as provide a simple access hub for which people who are interested in starting DIY to also be able to have an easy time changing parts. The board has two V-shaped cuts separating the tips from the center piece as shown in \ref{board-cut} as seen further below. Because of this feature, supporting linkages were needed in order to connect the pieces and improve stability. The final result we decided on was a double-v link, that faces the opposite direction of the cut. An example of a V-link can be seen in Figure \ref{singlev} of Statics Analysis. 
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{board-cut.JPG}
+\captionof{figure}{board-cut}
+\label{board-cut}
+\end{minipage}
+\end{figure}
+
 \subsection{Control Systems and Control Processing}
 Figure \ref{ctrl-overview} outlines the general structure of the motor control system.
 
@@ -347,6 +357,26 @@ A potential low voltage power system, for the microcontroller, CPU, and accessor
   \label{power-lv}
 \end{figure}
 There was no PSpice model available for the battery, so a model using experimentally determined voltages, resistances, and capicatances was implemented. The left hand side of the circuit is an array of different battery models for the same lithium cell at different charges, which are show on the top left. Pairs of identical models are connected in series because the circuit requires two lithium cells. The right hand side is the regulator circuit, composed of a simple LM7805 5V voltage regulator and several bypass power transistors to drive additional current. To ensure that the regulator circuit can provide steady voltage and that the batteries will stay within safe operating boundaries, the sets of batteries will be connected one at a time to the regulator circuit, and the regulator circuit will be connected to a load. Transient and steady-state characteristics of battery and regulator current and voltage will be measured to ensure safe and reliable operation.
+\subsubsection{Linkage Analysis}
+The are many metals that can be used to support structures. So it is important to look at the different strengths of each metal/alloy. When researching it was important to look at certain qualities. The following categories were important when searching for the correct metal to attach the tip and . 
+\begin{itemize}
+\item Water Resistance 
+\item Yield Strength - the stress at which a specific amount of plastic deformation is produced, usually taken as 0.2 percent of the unstressed length.
+\item Compressive Strength - the resistance of a material to breaking under compression.
+\item Tensile Strength - the resistance of a material to breaking under tension.
+\item Impact Strength - the capability of the material to withstand a suddenly applied load and is expressed in terms of energy.
+\item Cost - how much for the total amount of metal we would need.
+\item Machineability - how easy is it to work with the material
+\end{itemize}
+Below is a table with all of the data from the trade study on the materials.
+\begin{figure}[!htbp]\centering
+  \includegraphics[width=\linewidth]{metals.JPG}
+  \caption{Table with Metal Analysis}
+  \label{metals}
+\end{figure}
+\newline
+The results clearly show that Aluminum 7075 (T6) is the correct metal to support the board.
+
 \subsubsection{Statics Analysis}
 When producing a board, it is important to make sure that it has enough safety and security for consumers to ride without fear of board breaking. To make the board more modular, the tips were separated from the centerpiece, so that meant a supporting link(s) was needed to keep the board together. Using SolidWorks, the group 3D modeled the board and possible linkage types. The average pressure generated from a person is about 16 psi, so when running simulations, the assembly was tested at 18 psi to guarantee that it could support a vast majority of people. Through this testing it was apparent which linkages were more effective than others. 
 \newline
