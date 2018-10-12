@@ -74,6 +74,101 @@ Skateboarding has been around since the mid 1900s, and has changed drastically s
 \item Longboard - Type of skateboard more suited for traveling long distances. Longboard decks are elongated and often somewhat flexible or bouncy; longboard trucks are typically looser (i.e. requiring less force to turn).
 \end{itemize}
 
+\subsection{Board Shape}
+Board shape can be split into multiple categories. First category is the deck shape, and the second is the concavity of the board. Taking both into consideration allowed the group to pick an ideal board to begin with for testing.
+
+\subsubsection{Deck Shape}
+Deck shape is important, because when longboarding the deck shape largely determines whether the board is meant for cruising or downhill. The two standard types are shown in the images below.
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{cruiser.jpg}
+\captionof{figure}{Cruiser}
+\label{cruiser}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{downhill.jpg}
+\captionof{figure}{Downhill}
+\label{downhill}
+\end{minipage}
+\end{figure}
+\begin{itemize}
+\item Cruisers - This is the most popular longboard style, and the deck size allows for greater weight distribution. It is reliable, however they usually aren't stiff and have shorter wheelbases compared to downhill decks. Their main purpose is riding on flat ground comfortably and quickly.
+
+\item Downhill - As the name implies, this board type is for riding downhill quickly. It is important that deck doesn't flex much, and has a wide wheelbase otherwise the rider could lose control easily and become injured. It is usually advised to wear protective gear while riding these boards, because speeds when going downhill are very dangerous, and often lethal.
+
+\end{itemize}
+
+
+\subsubsection{Concavity}
+Below are a types of concavity on the board. For the most part it is up to the user, and how he/she prefers the deck to feel under his/her feet. 
+
+\begin{itemize}
+
+\begin{figure}[!htbp]\centering
+
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{radial.jpg}
+\captionof{figure}{Radial}
+\label{radial}
+\end{minipage}
+\item Most Common Design, accepted relatively universally. The deeper the curve the better the feel of the board. 
+\end{figure}
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{progressive.jpg}
+\captionof{figure}{Progressive}
+\label{progressive}
+\end{minipage}
+\item Similar to radial decks, but provides a more locked in feel with more secure footing.
+\end{figure}
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{w-concave.jpg}
+\captionof{figure}{W-Concave}
+\label{w-concave}
+\end{minipage}
+\item Easier shifting of weight from foot to heel, highly precise and responsive deck.
+\end{figure}
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{flatcave.jpg}
+\captionof{figure}{Flatcave}
+\label{flatcave}
+\end{minipage}
+\item Provides a more relaxed ride, but because of curved sides can apply some sudden shifts in weight.
+\end{figure}
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{asymmetric.jpg}
+\captionof{figure}{Asymmetric}
+\label{asymmetric}
+\end{minipage}
+\item This board is good for riders who heavily rely on their heels to shift weight.
+\end{figure}
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{convex.jpg}
+\captionof{figure}{Convex}
+\label{convex}
+\end{minipage}
+\item Provides natural foot placement, but not as easy to control or safe.
+\end{figure}
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{flat.jpg}
+\captionof{figure}{Flat}
+\label{flat}
+\end{minipage}
+\end{figure}
+\item Allows for plenty of space for feet, and interesting tricks like boardwalking, which cannot be done easily on other decks.
+\end{itemize}
+
 \subsection{Electric Skateboards}
 An electric skateboard (ESB) is a skateboard with one or more electric motors and drive trains attached to one or more wheels. The battery that powers the motor(s) is generally fixed to the bottom of the deck in a shroud that protects it and accompanying electronics from damage. The motor is often controlled with a handheld controller which may be wireless or wired. Alternatively, some ESBs include pressure or strain sensors in the deck and use the rider's balance to control the motor. ESBs are usually longboards, as they tend to provide smoother rides at the higher speeds often achieved with the electric motor.\\
 One example of a relatively standard ESB is the Boosted Board brand “Dual+ XR” pictured in figure \ref{boosted}, which happens to also be one of the most popular off the shelf ESBs on the market today.
@@ -252,5 +347,34 @@ A potential low voltage power system, for the microcontroller, CPU, and accessor
   \label{power-lv}
 \end{figure}
 There was no PSpice model available for the battery, so a model using experimentally determined voltages, resistances, and capicatances was implemented. The left hand side of the circuit is an array of different battery models for the same lithium cell at different charges, which are show on the top left. Pairs of identical models are connected in series because the circuit requires two lithium cells. The right hand side is the regulator circuit, composed of a simple LM7805 5V voltage regulator and several bypass power transistors to drive additional current. To ensure that the regulator circuit can provide steady voltage and that the batteries will stay within safe operating boundaries, the sets of batteries will be connected one at a time to the regulator circuit, and the regulator circuit will be connected to a load. Transient and steady-state characteristics of battery and regulator current and voltage will be measured to ensure safe and reliable operation.
+\subsubsection{Statics Analysis}
+When producing a board, it is important to make sure that it has enough safety and security for consumers to ride without fear of board breaking. To make the board more modular, the tips were separated from the centerpiece, so that meant a supporting link(s) was needed to keep the board together. Using SolidWorks, the group 3D modeled the board and possible linkage types. The average pressure generated from a person is about 16 psi, so when running simulations, the assembly was tested at 18 psi to guarantee that it could support a vast majority of people. Through this testing it was apparent which linkages were more effective than others. 
+\newline
+Below are some Linkage types that were tested. There were also, configurations using double the amount of links.
 
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{single-v.JPG}
+\captionof{figure}{Single-V}
+\label{singlev}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{single-bar.JPG}
+\captionof{figure}{Single-Bar}
+\label{singlebar}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{single-accent.JPG}
+\captionof{figure}{single-accent}
+\label{single-accent}
+\end{minipage}
+\end{figure}
+\
+The result of all the testing displayed that the Double V structure was the most structurally sound. 
 \end{document}
