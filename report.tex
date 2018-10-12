@@ -132,16 +132,16 @@ Each column represents a subroutine called by a hardware interrupt. In the case 
 \subsubsection{Low Voltage Power}
 The low voltage power system powers the MSP430 microcontroller, the Rock64 mini-PC, and any electronic accessories. Its main components are a battery comprised of two lithium cells for a total voltage of about 7.4 volts and a custom high-current voltage regulator that regulates to 5V. This regulator provides sufficient power to the MSP430 and Rock64, and can provide up to 2A at 5V to each accessory. For more information, see \ref{power-lv-sec}
 \subsection{Computer and Accessory System}
-Accessories are held in the dust resistant, water resistant (IP 66, see section \ref{} for more details shrouds mounted to the underside of the deck, which also contain other electronic systems. Figure \ref{access-full} shows the shrounds mounted on the deck, while figure \ref{access-expl} shows an exploded view of the shroud itself.
-\begin{figure}
-  \includegraphics{ModularAssembledBottomAngle}
+Accessories are held in the dust resistant, water resistant (IP 66, see section for more details shrouds mounted to the underside of the deck, which also contain other electronic systems. Figure \ref{access-full} shows the shrounds mounted on the deck, while figure \ref{access-expl} shows an exploded view of the shroud itself.
+\begin{figure}\centering
+  \includegraphics[width=.7\linewidth]{ModularAssembledBottomAngle}
   \caption{Electronics Shrouds}
-  \ref{access-full}
+  \label{access-full}
 \end{figure}
-\begin{figure}
-  \includegraphics{ModPieceAngleExtend}
+\begin{figure}\centering
+  \includegraphics[width=.7\linewidth]{ModPieceAngleExtend}
   \caption{Exploded View of Accessory System in Shroud}
-  \ref{access-expl}
+  \label{access-expl}
 \end{figure}
 Accessories slot into the base of the shroud, and then the horizontal beam is bolted on top of them to secure them during use. On the end opposite the beam is the accessory's Mini-DIN plug (for more detail, see \ref{access-plug}), used for power and data, which plugs into a port mounted to a PCB mounted to the shroud.
 
@@ -246,8 +246,8 @@ The MESB should be capable of traversing all of these types of terrain, even if 
 
 \subsubsection{Low Voltage Power}\label{power-lv-sec}
 A potential low voltage power system, for the microcontroller, CPU, and accessories, was designed in OrCAD Capture for simulation in PSpice. Figure \ref{power-lv} shows the circuit. 
-\begin{figure}[!htbp]
-  \includegraphics{power.xps.pdf}
+\begin{figure}[!htbp]\centering
+  \includegraphics[width=\linewidth]{power.pdf}
   \caption{Low Voltage Power Circuit Schematic}
   \label{power-lv}
 \end{figure}
