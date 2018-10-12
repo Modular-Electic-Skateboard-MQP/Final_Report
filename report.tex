@@ -129,7 +129,21 @@ The RC receiver outputs a pulse position modulation (PPM) signal that encodes th
 
 Each column represents a subroutine called by a hardware interrupt. In the case of the first two subroutines, the interrupt is triggered by the rising and falling edge, respectively of the PPM signal. On  the rising edge, a timer's value is captured. On the falling edge, the timer's value is captured again, and the difference between the times is the pulse position in which the throttle value is encoded. On each falling edge, an updated motor control value is decided based on the throttle position and based on encoder and temperature sensor values collected by a third interrupt routine and stored in global memory. The third routine is triggered at regular time intervals and collects temperature sensor and encoder values and sends them over a serial connection to the secondary computer system for long term storage.
 \subsection{Electrical and Power Systems}
+\subsubsection{Low Voltage Power}
+The low voltage power system powers the MSP430 microcontroller, the Rock64 mini-PC, and any electronic accessories. Its main components are a battery comprised of two lithium cells for a total voltage of about 7.4 volts and a custom high-current voltage regulator that regulates to 5V. This regulator provides sufficient power to the MSP430 and Rock64, and can provide up to 2A at 5V to each accessory. For more information, see \ref{power-lv-sec}
 \subsection{Computer and Accessory System}
+Accessories are held in the dust resistant, water resistant (IP 66, see section \ref{} for more details shrouds mounted to the underside of the deck, which also contain other electronic systems. Figure \ref{access-full} shows the shrounds mounted on the deck, while figure \ref{access-expl} shows an exploded view of the shroud itself.
+\begin{figure}
+  \includegraphics{ModularAssembledBottomAngle}
+  \caption{Electronics Shrouds}
+  \ref{access-full}
+\end{figure}
+\begin{figure}
+  \includegraphics{ModPieceAngleExtend}
+  \caption{Exploded View of Accessory System in Shroud}
+  \ref{access-expl}
+\end{figure}
+Accessories slot into the base of the shroud, and then the horizontal beam is bolted on top of them to secure them during use. On the end opposite the beam is the accessory's Mini-DIN plug (for more detail, see \ref{access-plug}), used for power and data, which plugs into a port mounted to a PCB mounted to the shroud.
 
 \section{Design Analysis}
 \subsection{Trade Studies}
@@ -219,4 +233,12 @@ DE-9 & 18 & 7 & 2 &  Yes & 2 & Yes & 2 & Large & 1 & Medium & 2 & \$1-2 & 2 & Ye
 \end{tabular}}
 \end{table}
 
+\subsubsection{Low Voltage Power}\label{power-lv-sec}
+A potential low voltage power system, for the microcontroller, CPU, and accessories, was designed in OrCAD Capture for simulation in PSpice. Figure \ref{power-lv} shows the circuit. 
+\begin{figure}[!htbp]
+  \includegraphics{power.xps.pdf}
+  \caption{Low Voltage Power Circuit Schematic}
+  \label{power-lv}
+\end{figure}
+There was no PSpice model available for the battery, so a model using experimentally determined voltages, resistances, and capicatances was implemented. The left hand side of the circuit is an array of different battery models for the same lithium cell at different charges, which are show on the top left. Pairs of identical models are connected in series because the circuit requires two lithium cells. The right hand side is the regulator circuit, composed of a simple LM7805 5V voltage regulator and several bypass power transistors to drive additional current. To ensure that the regulator circuit can provide steady voltage and that the batteries will stay within safe operating boundaries, the sets of batteries will be connected one at a time to the regulator circuit, and the regulator circuit will be connected to a load. Transient and steady-state characteristics of battery and regulator current and voltage will be measured to ensure safe and reliable operation.
 \end{document}
