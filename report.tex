@@ -7,6 +7,7 @@
 \usepackage{svg}
 \usepackage{caption}
 \usepackage{wrapfig}
+\usepackage{hyperref}
 
 \graphicspath{{./figs/}}
 \def\svgwidth{\textwidth}
@@ -254,7 +255,9 @@ The RC receiver outputs a pulse position modulation (PPM) signal that encodes th
 Each column represents a subroutine called by a hardware interrupt. In the case of the first two subroutines, the interrupt is triggered by the rising and falling edge, respectively of the PPM signal. On  the rising edge, a timer's value is captured. On the falling edge, the timer's value is captured again, and the difference between the times is the pulse position in which the throttle value is encoded. On each falling edge, an updated motor control value is decided based on the throttle position and based on encoder and temperature sensor values collected by a third interrupt routine and stored in global memory. The third routine is triggered at regular time intervals and collects temperature sensor and encoder values and sends them over a serial connection to the secondary computer system for long term storage.
 \subsection{Electrical and Power Systems}
 \subsubsection{Low Voltage Power}
-The low voltage power system powers the MSP430 microcontroller, the Rock64 mini-PC, and any electronic accessories. Its main components are a battery comprised of two lithium cells for a total voltage of about 7.4 volts and a custom high-current voltage regulator that regulates to 5V. This regulator provides sufficient power to the MSP430 and Rock64, and can provide up to 2A at 5V to each accessory. For more information, see \ref{power-lv-sec}
+The low voltage power system powers the MSP430 microcontroller, the Rock64 mini-PC, and any electronic accessories. Its main components are a battery comprised of two lithium cells for a total voltage of about 7.4 volts and a custom high-current voltage regulator that regulates to 5V. This regulator provides sufficient power to the MSP430 and Rock64, and can provide up to 2A at 5V to each accessory. For more information, see Section \ref{power-lv-sec}.
+\subsubsection{High Voltage Power System}
+The high voltage power system is exclusively for powering the motors, which require significantly higher voltage and current than any of the other electronics on the MESB. It consists of an array of Samsung 25R 18650 2500mAH 20A lithium ion cells and a balancing circuit for charging and discharging them.
 \subsection{Computer and Accessory System}
 Accessories are held in the dust resistant, water resistant (IP 66, see section for more details shrouds mounted to the underside of the deck, which also contain other electronic systems. Figure \ref{access-full} shows the shrounds mounted on the deck, while figure \ref{access-expl} shows an exploded view of the shroud itself.
 \begin{figure}\centering
@@ -268,6 +271,8 @@ Accessories are held in the dust resistant, water resistant (IP 66, see section 
   \label{access-expl}
 \end{figure}
 Accessories slot into the base of the shroud, and then the horizontal beam is bolted on top of them to secure them during use. On the end opposite the beam is the accessory's Mini-DIN plug (for more detail, see \ref{access-plug}), used for power and data, which plugs into a port mounted to a PCB mounted to the shroud.
+
+The accessories are controlled by a Rock64 mini-PC running a minimal Linux installation. The Rock64 acts as a server to the client accessories using a simple API implemented with \itwoc as the physical layer.
 
 \section{Design Analysis}
 
@@ -398,7 +403,8 @@ On the skateboard, it would be places in areas that both are not prone to contac
     \centering
     \includegraphics[width=10cm]{figs/Picatinny_Rail.JPG}
     \caption{Picatinny Rail}
-    \label{fig:picTiny}
+    \label{fig:picTiny0}
+    hlsearch)
 \end{figure}
 
 After some thought and discussions with external personnel, we started to conceive of various modular systems that would be better to manufacture. This was done in order to look at the project from the point of view of the manufacturer, which would inheritly open up opportunities to fabricate a system that would implement smaller units under the deck of the board, and retain a higher standard for durability in terms of water resistance, shock, and other elements.
@@ -407,21 +413,21 @@ After some thought and discussions with external personnel, we started to concei
     \centering
     \includegraphics[width=10cm]{figs/ModPieceAngle.JPG}
     \caption{Modular Unit}
-    \label{fig:picTiny}
+    \label{fig:picTiny1}
 \end{figure}
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=10cm]{figs/ModularAssembledZoomModOpen.JPG}
     \caption{Modular Unit on board}
-    \label{fig:picTiny}
+    \label{fig:picTiny2}
 \end{figure}
 
 
 \subsection{Trade Studies}
 This section breaks down in detail several tradeoffs of components, protocols, etc. which had to be considered once the system level design was finished. Each column compares the qualities of a certain attribute of the systems under study, and lists the point value score assigned to each quality. The maximum acheivable score in each category is listed in the header of each category with a ``/'' preceding it; the maximum acheivable total score is listed in the header of the leftmost column listing the names of the systems being compared.
 
-\subsubsection{Real Time Microcontroller}
+\subsection{Real Time Microcontroller}
 Before choosing a specific processor or development board, several microcontroller (MCU) platforms were compared. At least some variants of each of the microcontrollers in table \ref{tr-mcu} would meet the basic requirements of the MCU for the real time control system on the MESB, such as hardware interrupts and an appropriate number of analog to digital converters, timers, etc.
 \begin{table}[!htbp]
 \caption{Real Time Microcontroller Trade Study}
@@ -574,4 +580,12 @@ Below are some Linkage types that were tested. There were also, configurations u
 \end{figure}
 \
 The result of all the testing displayed that the Double V structure was the most structurally sound.
+
+\section{Software}
+\subsection{Real Time System}
+The real time system, as discussed before, is centered around a Texas Instruments MSP430F5529 microcontroller. Software for the real time system was compiled and debugged with Texas Instruments' development environment, Code Composer Studio v8.2.0, and the included compilers, debuggers, and libraries. The TI v18.1.4.LTS MSP430 compiler was used with the \texttt{msp430f5529.h} C header file and the \texttt{lnk\_msp430f5529.cmd} linker command file, both freely available from Texas Instruments. All code written for the MSP430 as well as necessary Code Composer Studio project files can be found in the git repository at \url{https://github.com/zane-weissman/msp-ccs}.
+\subsubsection{Reading PPM Signal}
+The functions necessary for reading the PPM signal generated by the RC receiver are defined in the C header file \texttt{ppm.h}. The setup function \texttt{ppm\_setup}, which must be called before interrupts are enabled globally, configures the P1.2 pin in function mode so that it can be used to trigger timer capture, and then configures the TimerA timer. This is a 16-bit timer, configured for ``continuous mode,'' meaning that it counts from zero to $2^{16}-1$ and then rolls over back to zero. The clock on this timer is driven by the 32768 Hz clock on the MSP430 development board. Capture settings are set so that the timer's value is stored and an interrupt is triggered on any rising or falling edge of the signal at P1.2. The capture signal is synchronized with the timer clock to avoid race conditions.
+
+The other function defined in \texttt{ppm.h} is \texttt{PPM\_ISR}, the interrupt service routine (ISR) that handles the interrupts generated by the timer module when a rising or falling edge of P1.2 is detected. The first thing this ISR does is capture the value of the control register \texttt{TA0CCTL}. This register contains the volatile \texttt{CCI} bit, which contains the current input value of the capture signal pin P1.2. The ISR then checks if that bit is high or low; if it is high, the signal has just finished rising, so a rising edge triggered the interrupt; if it is low, the signal has just finished falling, so a falling edge triggered the interrupt. On the rising edge, the ISR saves the captured value of the timer into the global variable \texttt{rising\_count}. On the falling edge, the ISR subtracts \texttt{rising\_count} from the new captured value to find the number of timer counts since the last rising edge. This difference is stored in a global array which is circularly indexed for speed. After the difference is stored the circular index is incremented. Finally, regardless of which edge triggered the interrupt, the interrupt vector is cleared.
 \end{document}
