@@ -1,4 +1,4 @@
-\documentclass[titlepage, letterpaper,12pt]{article}
+\documentclass[letterpaper,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -11,6 +11,8 @@
 \graphicspath{{./figs/}}
 \def\svgwidth{\textwidth}
 
+
+
 \renewcommand{\theadalign}{bl}
 \renewcommand\theadfont{\bfseries}
 
@@ -22,12 +24,11 @@
 \author{Nick Fajardo, Phillip Konyeaso, Zane Weissman}
 
 \begin{document}
-
-\maketitle
-
 \tableofcontents
 \listoffigures
 \listoftables
+
+\maketitle
 
 \begin{abstract}
 The Modular Electric Skateboard (MESB) is an electric skateboard (ESB) that allows the user to mix and match components tailored to a specific user’s needs. The MESB is equipped with a TBD watt motor controlled by a handheld RC controller and capable of acheiving speeds as high as TBD. The deck, the part of the board on which the user stands while riding, can be disassembled and reassembled by hand to swap out major mechanical components of the board. The board's electrical system includes rails for mounting hot-swappable accessories.
@@ -58,7 +59,7 @@ Skateboarding has been around since the mid 1900s, and has changed drastically s
 \item Nose - Front of the board. A typical skateboard has a nose that is angled up.
 \item Tail - Rear of the board. A typical skateboard has a tail that is angled up.
 \end{itemize}
-\item Trucks - The assemblies that connect the wheels to the deck.
+\item Trucks - The assemblies that connect the wheels to the deck. 
 \begin{itemize}
 \item Hanger - The main, T-shaped portion of the truck.
 \item Riser Pad - A pad used to add distance between the wheel and the deck. Often made of a material conducive to dampening vibration, such as rubber or cork.
@@ -71,6 +72,14 @@ Skateboarding has been around since the mid 1900s, and has changed drastically s
 \end{itemize}
 \item Hardware - All the nuts and bolts needed to attach the trucks to the deck.
 \item Longboard - Type of skateboard more suited for traveling long distances. Longboard decks are elongated and often somewhat flexible or bouncy; longboard trucks are typically looser (i.e. requiring less force to turn).
+\end{itemize}
+
+\subsubsection{Board Material}
+When looking at skateboards/longboards they are usually made out of composition different layered materials. They are often separated into three main categories based on main material used for composition. The list below explains the differences between each board type.
+\begin{itemize}
+    \item Canadian Maple veneer - this material is the industry standard for most skateboards/longboards. It is slightly flexible, with medium resistance to pressure, and very durable. Most people are used to riding this type of board. (This is the material we will be using for the project.)
+    \item Bamboo - this material is not used for skateboards usually, and can be found for longboards. It is very flexible, with high resistance to pressure, however as a result it does not hold shape while pressure is applied (large bend). Some people are accustomed to this board type.
+    \item Baltic Birch plywood - this material is a happy medium between the prior two materials. But as a result it is more likely to splinter. 
 \end{itemize}
 
 \subsection{Board Shape}
@@ -98,7 +107,7 @@ Deck shape is important, because when longboarding the deck shape largely determ
 \end{itemize}
 
 \subsubsection{Concavity}
-Below are a types of concavity on the board. For the most part it is up to the user, and how he/she prefers the deck to feel under his/her feet.
+Below are a types of concavity on the board. For the most part it is up to the user, and how he/she prefers the deck to feel under his/her feet. 
 
 \begin{itemize}
 
@@ -109,7 +118,7 @@ Below are a types of concavity on the board. For the most part it is up to the u
 \captionof{figure}{Radial}
 \label{radial}
 \end{minipage}
-\item Most Common Design, accepted relatively universally. The deeper the curve the better the feel of the board.
+\item Most Common Design, accepted relatively universally. The deeper the curve the better the feel of the board. 
 \end{figure}
 
 \begin{figure}[!htbp]\centering
@@ -167,6 +176,8 @@ Below are a types of concavity on the board. For the most part it is up to the u
 \item Allows for plenty of space for feet, and interesting tricks like boardwalking, which cannot be done easily on other decks.
 \end{itemize}
 
+
+
 \subsection{Electric Skateboards}
 An electric skateboard (ESB) is a skateboard with one or more electric motors and drive trains attached to one or more wheels. The battery that powers the motor(s) is generally fixed to the bottom of the deck in a shroud that protects it and accompanying electronics from damage. The motor is often controlled with a handheld controller which may be wireless or wired. Alternatively, some ESBs include pressure or strain sensors in the deck and use the rider's balance to control the motor. ESBs are usually longboards, as they tend to provide smoother rides at the higher speeds often achieved with the electric motor.\\
 One example of a relatively standard ESB is the Boosted Board brand “Dual+ XR” pictured in figure \ref{boosted}, which happens to also be one of the most popular off the shelf ESBs on the market today.
@@ -193,40 +204,31 @@ Onewheel +/+XR & 19 & 5-7/12-18 & 25 & 1,399/1,799 \\
 }
 \end{table}
 
-\section{System Overview}
+\section{System Overview} 
 The modular electric skateboard is an electric skateboard with a deck comprised of multiple sections which can be interchanged and replaced, a handheld remote controller for controlling the electric motor, a rail/data bus system attached to the underside of the deck which is capable of housing a number of accessories, and a small computer system which manages those accessories via a simple but flexible API.
 
 \subsection{Mechanical Systems}
 \subsubsection{Board and Linkages}
-When thinking about the production of the board, in order to increase modularity the group thought that it would be beneficial to split the board into tips and a centerpiece. This would allow for users to attach different peripherals to the MESB as well as provide a simple access hub for which people who are interested in starting DIY to also be able to have an easy time changing parts. The board has two V-shaped cuts separating the tips from the center piece as shown in \ref{board-cut} as seen further below. Because of this feature, supporting linkages were needed in order to connect the pieces and improve stability. The final result we decided on was a double-v link, that faces the opposite direction of the cut. An example of a V-link can be seen in Figure \ref{singlev} of Statics Analysis.
+When thinking about the production of the board, in order to increase modularity the group thought that it would be beneficial to split the board into tips and a centerpiece. This would allow for users to attach different peripherals to the MESB as well as provide a simple access hub for which people who are interested in starting DIY to also be able to have an easy time changing parts. The board has two V-shaped cuts separating the tips from the center piece as shown in \ref{board-cut} as seen further below. Because of this feature, supporting linkages were needed in order to connect the pieces and improve stability. The final result we decided on was a double-v link, that faces the opposite direction of the cut. An example of a V-link can be seen in Figure \ref{singlev} of Statics Analysis. 
 
 \begin{figure}[!htbp]\centering
 \begin{minipage}{.5\textwidth}\centering
-\includegraphics[width=.8\textwidth]{board-cut.JPG}
+\includegraphics[width=.8\textwidth]{board-cut}
 \captionof{figure}{board-cut}
 \label{board-cut}
 \end{minipage}
 \end{figure}
 
-\subsubsection{Modular Components}
-The board is equipped with two modular housing "units". These units conform to the shape of the board, and are mounted with four bolts that span the length of the board, as shown in the figure below.
+\subsection{Shock Absorption}
+Due to separation of the tail and tips of the board from the centerpiece, the board needs a a shock absorbing material to prevent splintering of the wood, and prevent rotational, and frictional effects that would be applied if it was wood on wood contact. After looking through multiple different choices, the final choice was sorbothane. It is both highly flexible, elastic, and can be compressed easily. It will help protect both tips and centerpiece connections, while also providing the rider some addition impact resistance while riding to add additional comfort. Below is an image of the material.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=10cm]{figs/ModularAssembledBottom.JPG}
-    \caption{Board with Modular Components in Line}
-    \label{inline}
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{sorbothane.jpg}
+\captionof{figure}{Sorbothane}
+\label{board-cut}
+\end{minipage}
 \end{figure}
-
-These units are placed in specific spots in order to accommodate for certain aspects of the system design. For instance, the component (referencing Figure \ref{inline}) to the left will house the batteries and electronics for the drive system. This is done since the skateboard will have a drive system only in the rear of the board, and placing the batteries and real time system closer to the drive will reduce the size of cables between them, which will impact likely hood of components being affected during use. The component on the right houses the customizable components of the board. These components will have a variety of uses in order to add functionality to the board, which can vary from the following list:
-
-\begin{itemize}
-    \item GPS Functionality
-    \item Sensor Pack (IMU unit)
-    \item Lighting System
-    \item Storage Compartment
-    \item Wireless Capabilities - Bluetooth/Wifi
-\end{itemize}
 
 \subsection{Control Systems and Control Processing}
 Figure \ref{ctrl-overview} outlines the general structure of the motor control system.
@@ -238,7 +240,7 @@ Figure \ref{ctrl-overview} outlines the general structure of the motor control s
 \caption{Major Components of Motor Control System}
 \label{ctrl-overview}
 \end{figure}
-The remote control (RC) system is a standard 2.4 GHz hobbyist system designed for small unmanned RC cars and boats and comprised of a handheld transmitter, pictured in figure \ref{ctrl-tx}, and a small receiver which is attached to the vehicle being controlled.
+The remote control (RC) system is a standard 2.4 GHz hobbyist system designed for small unmanned RC cars and boats and comprised of a handheld transmitter, pictured in figure \ref{ctrl-tx}, and a small receiver which is attached to the vehicle being controlled. 
 \begin{figure}[!htbp]\centering
 \includegraphics[width=0.5\textwidth]{controller.jpg}
 \caption{Standard RC Transmitter and Receiver}
@@ -270,154 +272,6 @@ Accessories are held in the dust resistant, water resistant (IP 66, see section 
 Accessories slot into the base of the shroud, and then the horizontal beam is bolted on top of them to secure them during use. On the end opposite the beam is the accessory's Mini-DIN plug (for more detail, see \ref{access-plug}), used for power and data, which plugs into a port mounted to a PCB mounted to the shroud.
 
 \section{Design Analysis}
-
-\subsection{Mechanical System Analysis}
-Representing the various elements of the Modular Electric Skateboard system requires a study on a variety of sections of the physical properties of the board. This includes calculating for the torque required to move the skateboard given its position, calculating the wheel contributions to a systems speed when a rotation around the board axis is induced, and using said calculations to derive the motors and gear ratios to use for the project.
-\subsubsection{General Torque Calculations}
-The system, in general, has a variety of physical properties that will not change during use.
-
-% Table of system properties
-\begin{table}[h]
-\caption{Physical System Properties}
-\begin{center}
- \begin{tabular}{||c c||}
- % \hline
- % Attribute & Numerical Value \\
- \hline
- Board Length & 39" \\
- \hline
- Board Width & 9.06" \\
- \hline
- Truck Width & 8.04" \\
- \hline
- High Friction Wheel Diameter & 2.625" \\
- \hline
- Low Friction Wheel Diameter & 2.48" \\
- \hline
-\end{tabular}
-\end{center}
-\label{table:phys}
-\end{table}
-
-It is also important to note that the following assumptions are made during this analysis:
-\begin{itemize}
-    \item Wheel is inducing point contact on surface
-    \item Rider and system mass are joined together, represented as a center of mass somewhere on the system
-    \item There is no slippage
-    \item Since we assume point contact, there will be no kinetic friction during movement
-\end{itemize}
-
-Using these properties, and a simple Free Body Diagram of the system, we can derive a general equation to map the motor torque and the acceleration on the given system.
-
-\begin{figure}[h]
-\caption{Free Body Diagram of System}
-\includegraphics[width=8cm]{figs/FBD_MESB.png}
-\centering
-\end{figure}
-
-\[\sum F _{x _{0}} = ma _x = F _f - \tau _{0} * R - F _wsin(\theta )\]
-\[\sum F _{x _{0}} = ma _x = F _n \mu _s - \tau _{0} * R - F _wsin(\theta )\]
-\[\sum F _{x _{0}} = ma _x = F _wcos(\theta) \mu _s - \tau _{0} * R - F _wsin(\theta )\]
-\[\tau _{0} = \frac{a _x - gcos(\theta)\mu _s + gsin(\theta)}{-R \frac{1}{m}}\]
-
-The torque that is required has a relation to the acceleration of the system in general at any given moment. We can convert this in terms of output motor torque:
-
-\[\tau _0 = \tau _{motor}\mu_tT\]
-\[\mu_t = transmission  \emph{ efficiency}\]
-\[T = transmission \emph{ ratio}\]
-\begin{equation} \label{eq:1}
-    \tau _{motor} = \frac{a _x - gcos(\theta)\mu _s + gsin(\theta)}{-\mu_t T R \frac{1}{m}}
-\end{equation}
-
-Now we can map the motor torque to the acceleration of the body, which will help us calculate the necessary torque the motor needs to apply to the system given some sensor data and user input on requested speed.
-
-\subsubsection{Wheel Contribution Calculations}
-Equation \ref{eq:1} found a mapping between the board acceleration and motor torque, given some environment and system parameters. However, this case will only be accurate whenever the board torque is applied when a rotation around the board axis ($X _{0}$) is not present.
-
-\begin{figure}[h]
-\includegraphics[width=8cm]{figs/Board_Axis.png}
-\centering
-\end{figure}
-
-In cases when the user induces a turn on the axis, each wheel will contribute differently to the total board velocity, which is something that needs to be mathematically modeled in order to adjust speeds when inducing a rotation $\gamma$ along the $X _{0}$ axis. Please note that the following statements are valid and exploited in this derivation of wheel velocities:
-\begin{itemize}
-    \item Any $\gamma$ along $X _{0}$ induces a rotation angle along the front and rear trucks, and the angle on each truck is equal in magnitude, but opposite in direction.
-    \item All wheels have the same properties
-    \item We know the physical properties of the board, as specified in Table \ref{table:phys}
-\end{itemize}
-
-\begin{figure}[!h]
-\caption{Position state by a rotation $\gamma$}
-\includegraphics[width=10cm]{figs/Wheel_Reps.png}
-\centering
-\end{figure}
-
-Assuming $\gamma$ is not zero, we can use the following relations to derive each wheel contribution:
-
-\[L = \emph{distance from point P to center of wheel}\]
-\[\vec{V} = \emph{Velocity of total body (relative to point P, in body frame)}\]
-\begin{equation}
-    \emph{Rolling Constraint} =
-    [sin(\alpha + \beta), -cos(\alpha + \beta), -Lcos(\beta)]\vec{V} - r\dot{\delta} = 0
-\end{equation}
-\begin{equation}
-    \emph{Sliding Constraint} =
-    [cos(\alpha + \beta), sin(\alpha + \beta), Lsin(\beta)]\vec{V} - r\dot{\delta} = 0
-\end{equation}
-
-These relations are based off of alpha and beta, which can be found for each wheel using the known parameters
-
-\begin{figure}[!h]
-\caption{Position of Front Left Wheel}
-\includegraphics[width=10cm]{figs/FL.png}
-\centering
-\end{figure}
-
-\begin{equation}
-    \alpha _{fl} = cos^{-1}(\frac{\frac{T}{2}-L _{fl}^2-\frac{d}{2}^{2})}{-2L _{fl}\frac{d}{2}})
-\end{equation}
-
-\begin{equation}
-    \beta _{fl} = cos^{-1}(\frac{\frac{d}{2}-L _{fl}^2-\frac{T}{2}^{2})}{-2L _{fl}\frac{T}{2}})
-\end{equation}
-
-Similar calculations can be performed on each wheel, which in the end will yield functions that map our board rotation and wheel speeds to the given board speed. We will summarize the process of combining the wheel velocity equations gathered from the process above and solving for the board velocity $\vec{V}$ inside a function:
-
-\begin{equation}
-    \vec{V} = mapRotationToSpeed(Board Rotation) = mapRV(\gamma)
-\end{equation}
-
-This will allow us to more accurately produce a body velocity to feed into a control system to then tell the board what torque to produce.
-
-\subsection{Modular Platform}
-When conceiving of the concept of how to attach modules on the board in a way that is friendly to the user, Picatinny Rails were the top option for most of the preliminary phase of the project. These rail systems allow any unit with a matching coupling device to be mounted to the rail system, and the device can vary in size with ought affecting the quality of the coupling system when under load.
-
-On the skateboard, it would be places in areas that both are not prone to contact with the ground when the board is moving on uneven surfaces and places in an area that would not affect the structure of the board.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=10cm]{figs/Picatinny_Rail.JPG}
-    \caption{Picatinny Rail}
-    \label{fig:picTiny}
-\end{figure}
-
-After some thought and discussions with external personnel, we started to conceive of various modular systems that would be better to manufacture. This was done in order to look at the project from the point of view of the manufacturer, which would inheritly open up opportunities to fabricate a system that would implement smaller units under the deck of the board, and retain a higher standard for durability in terms of water resistance, shock, and other elements.
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=10cm]{figs/ModPieceAngle.JPG}
-    \caption{Modular Unit}
-    \label{fig:picTiny}
-\end{figure}
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=10cm]{figs/ModularAssembledZoomModOpen.JPG}
-    \caption{Modular Unit on board}
-    \label{fig:picTiny}
-\end{figure}
-
-
 \subsection{Trade Studies}
 This section breaks down in detail several tradeoffs of components, protocols, etc. which had to be considered once the system level design was finished. Each column compares the qualities of a certain attribute of the systems under study, and lists the point value score assigned to each quality. The maximum acheivable score in each category is listed in the header of each category with a ``/'' preceding it; the maximum acheivable total score is listed in the header of the leftmost column listing the names of the systems being compared.
 
@@ -473,7 +327,7 @@ Table \ref{tr-serial} compares several serial protocols which were considered fo
 \begin{tabular}{>{\bfseries}l>{\bfseries}r lr lr lr lr }
 \toprule
 \thead{Name} & /27 & \thead{Wires, \\ Shared} & /3 & \thead{Add'l Wires \\ per Device }& /10 & \thead{Speed} & /4 & \thead{Ease\\ of Use} & /10\\
-\cmidrule(r){1-2} \cmidrule(r){3-4} \cmidrule(r){5-6} \cmidrule(r){7-8} \cmidrule(r){9-10}
+\cmidrule(r){1-2} \cmidrule(r){3-4} \cmidrule(r){5-6} \cmidrule(r){7-8} \cmidrule(r){9-10} 
 \itwoc & 25 & 2 & 2 & 0 & 10 & 100k-3.4Mbps & 3 & easy & 10\\
 CAN & 17 & 2 & 2 & 0 & 10 & 1Mbps & 3 & hard & 2\\
 SPI & 15 & 3 & 1 & 1 & 3 & 10Mbps & 4 & medium & 7\\
@@ -504,6 +358,26 @@ Mini USB-B & 19 & 3 & 2 & Yes & 2 & No & 1 & Small & 3 & Small & 3 & \$1 & 3 & Y
 DE-9 & 18 & 7 & 2 &  Yes & 2 & Yes & 2 & Large & 1 & Medium & 2 & \$1-2 & 2 & Yes & 2 & 5 & 2 & 100 & 2\\
 \end{tabular}}
 \end{table}
+
+\subsubsection{Shock Absorption}
+Table \ref{tr-sa} compares several types of shock absorbing materials which were considered to put place in between the joints of the of the tips and midsection:
+\begin{table}[!htbp]
+\caption{Shock Absorbing Material Trade Study}
+\label{tr-sa}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{>{\bfseries}l>{\bfseries}r lr lr lr lr lr lr lr lr lr }
+\toprule
+\thead{Name} & /19 & \thead{Impact\\Resistance} & /5 & \thead{Water\\Resistance} & /5 & \thead{Flexibility} & /1 & \thead{Durability} & /5 & \thead{Cost} & /3\\
+\cmidrule(r){1-2} \cmidrule(r){3-4} \cmidrule(r){5-6} \cmidrule(r){7-8} \cmidrule(r){9-10} \cmidrule(r){11-12}
+Sorbothane & 17 & Very High & 5 & Very High & 5 & Yes & 1 & Very High & 5 & \$30 & 1\\
+Rubber & 16.5 & High & 4 & Very High & 5 & Yes & 1 & High & 4 & \$15 & 2.5\\
+Silicone & 15 & Med & 3 & Very High & 5 & Yes & 1 & High & 4 & \$20 & 2\\
+Springs & 13.5 & Med High & 3.5 & Med & 3 & Yes & 1 & High & 4 & \$20 & 2\\
+Oil & 9 & Very Low & 1 &  Low & 2 & No & 0 & Med & 3 & \$10 & 3\\
+Foam & 11.5 & Low & 2 &  Very High & 5 & No & 0 & Med Low & 2.5 & \$20 & 2\\
+\end{tabular}}
+\end{table}
+
 \subsection{Testing}
 \subsubsection{Road Roughness and Ride Quality}
 International standards for road roughness have existed for a few decades. Most commonly used is the international roughness index (IRI), a measure of the motion of a vehicle's suspension as it travels a certain distance over a road, reported in units of meters per kilometer or equivalently, millimeters per m. However, the assumed ``standard vehicle'' is a car, which of course has very different suspension characteristics from a skateboard, and furthermore, most cities do not regularly measure the IRI of their roads, nor are IRI measuring devices cheap or readily accessible, so measuring the IRI of a road or finding a road with a known IRI would be rather impractical. \\
@@ -517,17 +391,17 @@ Instead, roads in the neighborhood around Worcester Polytechnic Institute were c
 The MESB should be capable of traversing all of these types of terrain, even if it requires some caution, and it should be comparably comfortable to the stock longboard with the same deck.
 
 \subsubsection{Low Voltage Power}\label{power-lv-sec}
-A potential low voltage power system, for the microcontroller, CPU, and accessories, was designed in OrCAD Capture for simulation in PSpice. Figure \ref{power-lv} shows the circuit.
+A potential low voltage power system, for the microcontroller, CPU, and accessories, was designed in OrCAD Capture for simulation in PSpice. Figure \ref{power-lv} shows the circuit. 
 \begin{figure}[!htbp]\centering
   \includegraphics[width=\linewidth]{power.pdf}
   \caption{Low Voltage Power Circuit Schematic}
   \label{power-lv}
 \end{figure}
-There was no PSpice model available for the battery, so a model using experimentally determined voltages, resistances, and capicatances was implemented. The left hand side of the circuit is an array of different battery models for the same lithium cell at different charges, which are show on the top left. Pairs of identical models are connected in series because the circuit requires two lithium cells. The right hand side is the regulator circuit, composed of a simple LM7805 5V voltage regulator and several bypass power transistors to drive additional current. To ensure that the regulator circuit can provide steady voltage and that the batteries will stay within safe operating boundaries, the sets of batteries will be connected one at a time to the regulator circuit, and the regulator circuit will be connected to a load. Transient and steady-state characteristics of battery and regulator current and voltage will be measured to ensure safe and reliable operation.
+There was no PSpice model available for the battery, so a model using experimentally determined voltages, resistances, and capacitance's was implemented. The left hand side of the circuit is an array of different battery models for the same lithium cell at different charges, which are show on the top left. Pairs of identical models are connected in series because the circuit requires two lithium cells. The right hand side is the regulator circuit, composed of a simple LM7805 5V voltage regulator and several bypass power transistors to drive additional current. To ensure that the regulator circuit can provide steady voltage and that the batteries will stay within safe operating boundaries, the sets of batteries will be connected one at a time to the regulator circuit, and the regulator circuit will be connected to a load. Transient and steady-state characteristics of battery and regulator current and voltage will be measured to ensure safe and reliable operation.
 \subsubsection{Linkage Analysis}
-The are many metals that can be used to support structures. So it is important to look at the different strengths of each metal/alloy. When researching it was important to look at certain qualities. The following categories were important when searching for the correct metal to attach the tip and .
+The are many metals that can be used to support structures. So it is important to look at the different strengths of each metal/alloy. When researching it was important to look at certain qualities. The following categories were important when searching for the correct metal to attach the tip and tail. 
 \begin{itemize}
-\item Water Resistance
+\item Water Resistance - the ability to not corrode easily when water is applied to object.
 \item Yield Strength - the stress at which a specific amount of plastic deformation is produced, usually taken as 0.2 percent of the unstressed length.
 \item Compressive Strength - the resistance of a material to breaking under compression.
 \item Tensile Strength - the resistance of a material to breaking under tension.
@@ -545,7 +419,7 @@ Below is a table with all of the data from the trade study on the materials.
 The results clearly show that Aluminum 7075 (T6) is the correct metal to support the board.
 
 \subsubsection{Statics Analysis}
-When producing a board, it is important to make sure that it has enough safety and security for consumers to ride without fear of board breaking. To make the board more modular, the tips were separated from the centerpiece, so that meant a supporting link(s) was needed to keep the board together. Using SolidWorks, the group 3D modeled the board and possible linkage types. The average pressure generated from a person is about 16 psi, so when running simulations, the assembly was tested at 18 psi to guarantee that it could support a vast majority of people. Through this testing it was apparent which linkages were more effective than others.
+When producing a board, it is important to make sure that it has enough safety and security for consumers to ride without fear of board breaking. To make the board more modular, the tips were separated from the centerpiece, so that meant a supporting link(s) was needed to keep the board together. Using SolidWorks, the group 3D modeled the board and possible linkage types. The average pressure generated from a person is about 16 psi, so when running simulations, the assembly was tested at 18 psi to guarantee that it could support a vast majority of people. Through this testing it was apparent which linkages were more effective than others. 
 \newline
 Below are some Linkage types that were tested. There were also, configurations using double the amount of links.
 
@@ -572,6 +446,65 @@ Below are some Linkage types that were tested. There were also, configurations u
 \label{single-accent}
 \end{minipage}
 \end{figure}
-\
-The result of all the testing displayed that the Double V structure was the most structurally sound.
+The result of all the testing displayed that the Double V structure was the most structurally sound. With the board assembly and links applied statics tests were done on the whole system. As seen in the statics test below.
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{figs/statics-test.jpg}
+\captionof{figure}{Successful Statics Test}
+\label{Statics}
+\end{minipage}
+\end{figure}
+
+When looking at the result, as long as the coloration on the board does not change to red, the board will not break/splinter under the load applied.
+
+\subsubsection{Dynamics Analysis}
+Similar to the statics analysis, dynamics tests were done on the board with links using SolidWorks. Below is the completed dynamics test.
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{figs/dynamics-test.jpg}
+\captionof{figure}{Successful Dynamics Test}
+\label{Dynamics}
+\end{minipage}
+\end{figure}
+
+When looking at the result, as long as the coloration on the board does not change to red, the board will not break/splinter under the load applied and moving. The reason there is a large dip in the board is due to the angle of the image. The other reason is because without simulating the trucks with the board, it cannot show the natural curvature the board would have when say turning. This fact was cross-checked with other references of people who have CADed longboards and skateboards for confirmation.
+
+\section{Manufacturing}
+\subsection{Creation of Base Board}
+The section explains the creation of the board without any of the electronics. It proves that the CAD tests were correct, and the links are able to support the average male. 
+\subsubsection{Board Separation}
+The first step in producing the base board was separating the tips from the centerpiece. In order to do this the group wanted to cut approximately a right triangle, with the legs being of equal length. Using geometry the group drew in the guidelines, and then proceeded to cut the board using a saw. The results can be seen from the top of the finalized board, shown below \ref{}.
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{figs/board-top.jpg}
+\captionof{figure}{Board from a top down view}
+\label{board-top}
+\end{minipage}
+\end{figure}
+
+\subsubsection{Link Creation}
+To create the links, the group took a straight bar with the correct dimensions and fed it at an angle through a roller. Using this method, the group was able to get a curve nearly perfect enough to match the curvature of the board. Then they were milled half-way through on one end to make a set of overlapping flaps using the minimills in Washburn. The milling was done, so that a drill press could be used to make holes for which the bolts would then go through to attach the bars to the board. In the image below, the links are shown attached to the board.
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{figs/links-closeup.jpg}
+\captionof{figure}{Closeup of Links}
+\label{links-closeup}
+\end{minipage}
+\end{figure}
+
+\subsubsection{Board Assembly}
+After creation of the links, holes were drilled into the wood at specific locations, so the links could be attached. Then, sorbothane was cut, and placed in the joints between the tips and centerpieces. The links were then attached, using hex bolts and wing-nuts. Finally, the rest of the longboard was assembled as normal. The result can be seen below.
+
+\begin{figure}[!htbp]\centering
+\begin{minipage}{.5\textwidth}\centering
+\includegraphics[width=.8\textwidth]{figs/board-underside.jpg}
+\captionof{figure}{Completed board (Underside)}
+\label{board-underside}
+\end{minipage}
+\end{figure}
+
 \end{document}
