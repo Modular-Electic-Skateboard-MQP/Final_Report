@@ -193,6 +193,7 @@ Onewheel +/+XR & 19 & 5-7/12-18 & 25 & 1,399/1,799 \\
 }
 \end{table}
 
+\newpage
 \section{System Overview}
 The modular electric skateboard is an electric skateboard with a deck comprised of multiple sections which can be interchanged and replaced, a handheld remote controller for controlling the electric motor, a rail/data bus system attached to the underside of the deck which is capable of housing a number of accessories, and a small computer system which manages those accessories via a simple but flexible API.
 
@@ -229,6 +230,7 @@ These units are placed in specific spots in order to accommodate for certain asp
 \end{itemize}
 
 \subsection{Control Systems and Control Processing}
+\subsubsection{Control System Base Level Eletronics}
 Figure \ref{ctrl-overview} outlines the general structure of the motor control system.
 
 %\includesvg[width=\textwidth]{rt}
@@ -238,13 +240,17 @@ Figure \ref{ctrl-overview} outlines the general structure of the motor control s
 \caption{Major Components of Motor Control System}
 \label{ctrl-overview}
 \end{figure}
+
 The remote control (RC) system is a standard 2.4 GHz hobbyist system designed for small unmanned RC cars and boats and comprised of a handheld transmitter, pictured in figure \ref{ctrl-tx}, and a small receiver which is attached to the vehicle being controlled.
+
 \begin{figure}[!htbp]\centering
 \includegraphics[width=0.5\textwidth]{controller.jpg}
 \caption{Standard RC Transmitter and Receiver}
 \label{ctrl-tx}
 \end{figure}
+
 The RC receiver outputs a pulse position modulation (PPM) signal that encodes the position of the throttle on the transmitter. This signal is read by the microcontroller (MCU). The MCU uses a PID control loop with throttle values, the temperatures of the primary and secondary batteries, and motor encoder readings as its inputs to determine the speed at which to drive the motors. The MCU software is structured as shown in figure \ref{mcu-sw}.
+
 \begin{figure}[!htbp]\centering
 \includegraphics{mcusoftware.pdf}
 \caption{Microcontroller Software Overview}
@@ -252,23 +258,42 @@ The RC receiver outputs a pulse position modulation (PPM) signal that encodes th
 \end{figure}
 
 Each column represents a subroutine called by a hardware interrupt. In the case of the first two subroutines, the interrupt is triggered by the rising and falling edge, respectively of the PPM signal. On  the rising edge, a timer's value is captured. On the falling edge, the timer's value is captured again, and the difference between the times is the pulse position in which the throttle value is encoded. On each falling edge, an updated motor control value is decided based on the throttle position and based on encoder and temperature sensor values collected by a third interrupt routine and stored in global memory. The third routine is triggered at regular time intervals and collects temperature sensor and encoder values and sends them over a serial connection to the secondary computer system for long term storage.
+
+\subsubsection{Control Loop Design}
+When designing the response for the MESB system, the group considered multiple factors that could affect the overall experience of the user. After consideration of the users ride, pace, and speed desires, the group concluded on a basic PID controlled loop with a static gain.
+
+\begin{figure}[!htbp]\centering
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{ControlFigs/ClosedLoop.png}
+\caption{Closed PID Control Loop with Static Gain}
+\label{ClosedPP}
+\end{figure}
+
+Most electronic skateboard systems utilize an open control loop, however this is a rudimentary technique that should not be employed when sensors could be used to derive the speed of the system and the applied torque on a given motor. Since access is available to such sensors, the closed control loop (Figure \ref{ClosedPP}) is the best option to achieve the desired response discussed earlier.
+
+Specifically, this loop will derive the speed form the RC input using a linear relationship, and then will subtract the error which will be fed into a PID control. This PID parameters can be arranged to a specific users needs, which affects the lag and speed parameters of the system under operation. After the error is fed into the PID loop, it is then fed into a gain in order to create a lag for high errors. After the speed is calculated, it is then converted to torque using a basic algebraic function relating the desired speed error with the physical properties of the board under no incline and no speed. This is then added to a feed forward torque that calculates the needed torque to keep the board static under a specific incline and weight. This total torque is then converted into a current which can be directly feed into the drive system.
+
 \subsection{Electrical and Power Systems}
 \subsubsection{Low Voltage Power}
 The low voltage power system powers the MSP430 microcontroller, the Rock64 mini-PC, and any electronic accessories. Its main components are a battery comprised of two lithium cells for a total voltage of about 7.4 volts and a custom high-current voltage regulator that regulates to 5V. This regulator provides sufficient power to the MSP430 and Rock64, and can provide up to 2A at 5V to each accessory. For more information, see \ref{power-lv-sec}
 \subsection{Computer and Accessory System}
 Accessories are held in the dust resistant, water resistant (IP 66, see section for more details shrouds mounted to the underside of the deck, which also contain other electronic systems. Figure \ref{access-full} shows the shrounds mounted on the deck, while figure \ref{access-expl} shows an exploded view of the shroud itself.
-\begin{figure}\centering
+
+\begin{figure}
+  \centering
   \includegraphics[width=.7\linewidth]{ModularAssembledBottomAngle}
   \caption{Electronics Shrouds}
   \label{access-full}
 \end{figure}
+
 \begin{figure}\centering
   \includegraphics[width=.7\linewidth]{ModPieceAngleExtend}
   \caption{Exploded View of Accessory System in Shroud}
   \label{access-expl}
 \end{figure}
+
 Accessories slot into the base of the shroud, and then the horizontal beam is bolted on top of them to secure them during use. On the end opposite the beam is the accessory's Mini-DIN plug (for more detail, see \ref{access-plug}), used for power and data, which plugs into a port mounted to a PCB mounted to the shroud.
 
+\newpage
 \section{Design Analysis}
 
 \subsection{Mechanical System Analysis}
@@ -388,6 +413,41 @@ Similar calculations can be performed on each wheel, which in the end will yield
 \end{equation}
 
 This will allow us to more accurately produce a body velocity to feed into a control system to then tell the board what torque to produce.
+
+\subsubsection{Motor Torque Calculations}
+The physical analysis described above produced the required torque that is needed to drive the board. Using this calculated torque, the desired motor configuration and transmission ratio can be calculated. Motor configurations always consists of a DC motor connected to a wheel. This connection is either directly connected \cite{DirectConnect} or belt driven \cite{BeltConnect}, and can utilize one or two motors.
+
+In order to model this physical system, MATLAB objects and scripts were created representing the system itself.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=12cm]{MotorSelFigs/UML_BEST.png}
+    \caption{MATLAB System Models (UML)}
+    \label{MotorUML}
+\end{figure}
+
+Figure \ref{MotorUML} shows the two objects created in MATLAB, representing the whole system mathematical models. The functions and properties all have public access, but properties are set as immutable. This will allows for safe manipulation during use. These objects were then utilized in evaluation scripts that comparatively analyzed various motors, drive trains, and motor configurations. It is important to note that we limited our analysis to belt driven systems and a static drive train ratio and efficiency due to financial and time constraints. Analyzing a various amount of motors, the best performance was given by the Turnigy Aerodrive SK3 - 6374-192KV Brushless Outrunner Motor. However, as shown in Table \ref{MotorTable}, this is not the most cost effective solution when considering its needs in terms of amperage, motor controller, and battery operation. After considering the afformentioned factors, the ProDrive v2 5060 in a dual motor configuration is the most optimal.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{ |c | c | c| }
+        \hline
+        \textbf{Name} & \textbf{Max Torque (Nm)} & \textbf{Price (Dollars)} \\
+        \hline \hline
+        Turnigy Aerodrive 190kv & 3.420 & 90  \\
+         \hline
+        Turnigy Aerodrive 245kv & 2.868 & 76  \\
+         \hline
+        ProDrive v2 5060 270kv & 2.923 & 60  \\
+        \hline
+        Tacon 110 295kv & 1.177 & 60  \\
+         \hline
+        C5055 & 1.989  & 25  \\
+        \hline
+    \end{tabular}
+    \caption{Motor Evaluation Script Results}
+    \label{MotorTable}
+\end{table}
 
 \subsection{Modular Platform}
 When conceiving of the concept of how to attach modules on the board in a way that is friendly to the user, Picatinny Rails were the top option for most of the preliminary phase of the project. These rail systems allow any unit with a matching coupling device to be mounted to the rail system, and the device can vary in size with ought affecting the quality of the coupling system when under load.
