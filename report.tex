@@ -1,4 +1,4 @@
-\documentclass[letterpaper,12pt]{article}
+\documentclass[titlepage, letterpaper,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -11,8 +11,6 @@
 \graphicspath{{./figs/}}
 \def\svgwidth{\textwidth}
 
-
-
 \renewcommand{\theadalign}{bl}
 \renewcommand\theadfont{\bfseries}
 
@@ -24,11 +22,12 @@
 \author{Nick Fajardo, Phillip Konyeaso, Zane Weissman}
 
 \begin{document}
+
+\maketitle
+
 \tableofcontents
 \listoffigures
 \listoftables
-
-\maketitle
 
 \begin{abstract}
 The Modular Electric Skateboard (MESB) is an electric skateboard (ESB) that allows the user to mix and match components tailored to a specific user’s needs. The MESB is equipped with a TBD watt motor controlled by a handheld RC controller and capable of acheiving speeds as high as TBD. The deck, the part of the board on which the user stands while riding, can be disassembled and reassembled by hand to swap out major mechanical components of the board. The board's electrical system includes rails for mounting hot-swappable accessories.
@@ -199,7 +198,7 @@ The modular electric skateboard is an electric skateboard with a deck comprised 
 
 \subsection{Mechanical Systems}
 \subsubsection{Board and Linkages}
-When thinking about the production of the board, in order to increase modularity the group thought that it would be beneficial to split the board into tips and a centerpiece. This would allow for users to attach different peripherals to the MESB as well as provide a simple access hub for which people who are interested in starting DIY to also be able to have an easy time changing parts. The board has two V-shaped cuts separating the tips from the center piece as shown in \ref{board-cut} as seen further below. Because of this feature, supporting linkages were needed in order to connect the pieces and improve stability. The final result we decided on was a double-v link, that faces the opposite direction of the cut. An example of a V-link can be seen in Figure \ref{singlev} of Statics Analysis. 
+When thinking about the production of the board, in order to increase modularity the group thought that it would be beneficial to split the board into tips and a centerpiece. This would allow for users to attach different peripherals to the MESB as well as provide a simple access hub for which people who are interested in starting DIY to also be able to have an easy time changing parts. The board has two V-shaped cuts separating the tips from the center piece as shown in \ref{board-cut} as seen further below. Because of this feature, supporting linkages were needed in order to connect the pieces and improve stability. The final result we decided on was a double-v link, that faces the opposite direction of the cut. An example of a V-link can be seen in Figure \ref{singlev} of Statics Analysis.
 
 \begin{figure}[!htbp]\centering
 \begin{minipage}{.5\textwidth}\centering
@@ -208,6 +207,26 @@ When thinking about the production of the board, in order to increase modularity
 \label{board-cut}
 \end{minipage}
 \end{figure}
+
+\subsubsection{Modular Components}
+The board is equipped with two modular housing "units". These units conform to the shape of the board, and are mounted with four bolts that span the length of the board, as shown in the figure below.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=10cm]{figs/ModularAssembledBottom.JPG}
+    \caption{Board with Modular Components in Line}
+    \label{inline}
+\end{figure}
+
+These units are placed in specific spots in order to accommodate for certain aspects of the system design. For instance, the component (referencing Figure \ref{inline}) to the left will house the batteries and electronics for the drive system. This is done since the skateboard will have a drive system only in the rear of the board, and placing the batteries and real time system closer to the drive will reduce the size of cables between them, which will impact likely hood of components being affected during use. The component on the right houses the customizable components of the board. These components will have a variety of uses in order to add functionality to the board, which can vary from the following list:
+
+\begin{itemize}
+    \item GPS Functionality
+    \item Sensor Pack (IMU unit)
+    \item Lighting System
+    \item Storage Compartment
+    \item Wireless Capabilities - Bluetooth/Wifi
+\end{itemize}
 
 \subsection{Control Systems and Control Processing}
 Figure \ref{ctrl-overview} outlines the general structure of the motor control system.
@@ -506,9 +525,9 @@ A potential low voltage power system, for the microcontroller, CPU, and accessor
 \end{figure}
 There was no PSpice model available for the battery, so a model using experimentally determined voltages, resistances, and capicatances was implemented. The left hand side of the circuit is an array of different battery models for the same lithium cell at different charges, which are show on the top left. Pairs of identical models are connected in series because the circuit requires two lithium cells. The right hand side is the regulator circuit, composed of a simple LM7805 5V voltage regulator and several bypass power transistors to drive additional current. To ensure that the regulator circuit can provide steady voltage and that the batteries will stay within safe operating boundaries, the sets of batteries will be connected one at a time to the regulator circuit, and the regulator circuit will be connected to a load. Transient and steady-state characteristics of battery and regulator current and voltage will be measured to ensure safe and reliable operation.
 \subsubsection{Linkage Analysis}
-The are many metals that can be used to support structures. So it is important to look at the different strengths of each metal/alloy. When researching it was important to look at certain qualities. The following categories were important when searching for the correct metal to attach the tip and . 
+The are many metals that can be used to support structures. So it is important to look at the different strengths of each metal/alloy. When researching it was important to look at certain qualities. The following categories were important when searching for the correct metal to attach the tip and .
 \begin{itemize}
-\item Water Resistance 
+\item Water Resistance
 \item Yield Strength - the stress at which a specific amount of plastic deformation is produced, usually taken as 0.2 percent of the unstressed length.
 \item Compressive Strength - the resistance of a material to breaking under compression.
 \item Tensile Strength - the resistance of a material to breaking under tension.
